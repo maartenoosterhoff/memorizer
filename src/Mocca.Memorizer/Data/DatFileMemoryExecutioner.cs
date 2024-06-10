@@ -1,28 +1,21 @@
 ﻿using System.Collections.Immutable;
+using Mocca.Memorizer.Extensions;
 
 namespace Mocca.Memorizer.Data;
 
-public class DatFileMemoryExecutioner
+public class DatFileMemoryExecutioner(DataFile dataFile)
 {
-    private readonly DataFile _dataFile;
-
-    private ImmutableList<DataFileItem> _currentRun;
-
-    public DatFileMemoryExecutioner(DataFile dataFile)
-    {
-        _dataFile = dataFile;
-        _currentRun = [.. dataFile.Items];
-    }
+    private ImmutableList<DataFileItem> _currentRun = [.. dataFile.Items];
 
     public QuestionWithAnswers GenerateNextQuestion()
     {
         if (_currentRun.Count == 0)
         {
-            _currentRun = [.. _dataFile.Items];
+            _currentRun = [.. dataFile.Items];
         }
 
         var dataFileItem = _currentRun.GetRandom();
-        var faultyAnswers = _dataFile.Items.Remove(dataFileItem).GetRandom(3);
+        var faultyAnswers = dataFile.Items.Remove(dataFileItem).GetRandom(3);
 
         _currentRun = _currentRun.Remove(dataFileItem);
 

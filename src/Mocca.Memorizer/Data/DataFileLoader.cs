@@ -2,7 +2,7 @@
 
 namespace Mocca.Memorizer.Data;
 
-public class DataFileLoader : IDataFileLoader
+public class DataFileLoader
 {
     private readonly ImmutableList<char> _separators = ['|'];
 
